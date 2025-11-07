@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>CataloGO</title>
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="#">
+                <img src="/assets/logo/logo.png" alt="logo CataloGO">
+            </a>
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="active">Início</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Gêneros</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-toggle" aria-label="Abrir Menu">
+            ☰
+        </button>
+    </header>
+    <div id="movie-catalog" class="catalog-grid">
+        <p class="loading">Carregando filmes...</p>
+    </div>
+
+    <script src="/js/api.js"></script>
+</body>
+
+</html>
