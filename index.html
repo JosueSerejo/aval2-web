@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css"> 
     <title>CataloGO</title>
 </head>
 
@@ -50,11 +50,17 @@
         </div>
     </section>
 
+            <h1>Últimos Lançamentos</h1>
     <div id="movie-catalog" class="catalog-grid">
         <p class="loading">Carregando filmes...</p>
     </div>
 
-    <script src="script.js"></script>
+    <div class="pagination-controls">
+        <button id="prev-page-button" disabled>Página Anterior</button>
+        <span id="page-info">Página 1 de X</span>
+        <button id="next-page-button">Próxima Página</button>
+    </div>
+    <script src="./js/api.js"></script>
 </body>
 
 </html>

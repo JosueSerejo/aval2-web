@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -8,10 +6,10 @@
 
 :root {
     --color-primary: #1a1a2e;
-    --color-background: #f4f4f4;
+    --color-background: #e9eaf3;
     --color-text-dark: #333;
     --color-text-light: #ffffff;
-    --color-accent: #b80b28;
+    --color-accent: #b80b28; 
     --color-secondary-bg: #fff;
     --color-border: #ddd;
     --color-shadow: rgba(0, 0, 0, 0.2);
@@ -66,20 +64,20 @@ body {
 }
 
 .hero-search {
-    background-image: url('/assets/bg/bg_pesquisa.png');
-    background-color: #333;
-    background-size: cover;
+    background-image: url('../assets/bg/bg_pesquisa.png'); 
+    background-color: #333; 
+    background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 250px;
+    min-height: 250px; 
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 20px;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
+    position: relative; 
+    z-index: 1; 
+    overflow: hidden; 
 }
 
 .hero-search::before {
@@ -89,18 +87,18 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2; 
 }
 
 .search-overlay {
-    background-color: transparent;
+    background-color: transparent; 
     padding: 30px 20px;
     border-radius: 10px;
     width: 100%;
     max-width: 800px;
-    position: relative;
-    z-index: 3;
+    position: relative; 
+    z-index: 3; 
 }
 
 .search-overlay h2 {
@@ -124,8 +122,8 @@ body {
 .search-input {
     flex-grow: 1;
     padding: 10px 15px;
-    border: 2px solid transparent;
-    border-radius: 5px 0 0 5px;
+    border: 2px solid transparent; 
+    border-radius: 5px 0 0 5px; 
     font-size: 1em;
     outline: none;
     transition: border-color 0.3s;
@@ -136,7 +134,7 @@ body {
     color: var(--color-text-light);
     border: none;
     padding: 10px 15px;
-    border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0; 
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -144,17 +142,17 @@ body {
 }
 
 .search-button:hover {
-    background-color: #c9364b;
+    background-color: #8c081f; /* Cor ajustada para o novo accent */
 }
 
 .search-input:focus {
-    border-color: var(--color-accent);
+    border-color: var(--color-accent); 
 }
 
 .genre-select {
     width: 100%;
     padding: 10px 15px;
-    border: 2px solid transparent;
+    border: 2px solid transparent; 
     border-radius: 5px;
     font-size: 1em;
     outline: none;
@@ -162,10 +160,17 @@ body {
 }
 
 .genre-select:focus {
-    border-color: var(--color-accent);
+    border-color: var(--color-accent); 
 }
 
 /* ESTILOS DO CATÁLOGO */
+
+h1 {
+    text-align: center;
+    margin: 30px 0 10px;
+    color: var(--color-text-dark);
+}
+
 .catalog-grid {
     padding: 20px;
     display: flex;
@@ -180,7 +185,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px var(--color-shadow);
     padding: 10px;
-    width: 180px;
+    width: 155px;
     text-align: center;
     transition: transform 0.3s;
 }
@@ -189,18 +194,24 @@ body {
     transform: translateY(-5px);
 }
 
+.movie-card h3 {
+    font-size: 1em;
+    margin: 5px 0 0;
+    height: auto;
+    overflow: hidden;
+}
+
+.movie-card p {
+    font-size: 0.85em;
+    margin: 2px 0;
+    color: #555;
+}
+
 .movie-card img {
     width: 100%;
     height: auto;
     border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-.movie-card h3 {
-    font-size: 1em;
-    margin: 0;
-    height: 3em;
-    overflow: hidden;
+    margin-bottom: 5px;
 }
 
 .loading {
@@ -211,8 +222,45 @@ body {
     margin-top: 50px;
 }
 
-@media (min-width: 768px) {
+/* ESTILOS DE PAGINAÇÃO */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 30px 20px;
+}
 
+#page-info {
+    font-weight: bold;
+    color: var(--color-text-dark);
+}
+
+.pagination-controls button {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: #3f51b5; 
+}
+
+.pagination-controls button:disabled {
+    background-color: var(--color-border);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+/* MEDIA QUERY PARA DESKTOP */
+@media (min-width: 768px) {
+    
     .main-header {
         justify-content: flex-start;
         gap: 40px;
@@ -247,15 +295,19 @@ body {
         border-bottom: 2px solid var(--color-accent);
     }
 
+    .movie-card {
+        width: 220px;
+    }
+
     .search-controls {
         flex-direction: row;
         gap: 15px;
     }
-
+    
     .search-input-group {
         flex-grow: 3;
     }
-
+    
     .genre-select {
         flex-grow: 1;
         max-width: 200px;
