@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <title>CataloGO</title>
 </head>
 
@@ -12,7 +12,7 @@
     <header class="main-header">
         <div class="logo">
             <a href="#">
-                <img src="/assets/logo/logo.png" alt="logo CataloGO">
+                <img src="./assets/logo/logo.png" alt="logo CataloGO">
             </a>
         </div>
 
@@ -28,11 +28,33 @@
             ☰
         </button>
     </header>
+
+    <section class="hero-search">
+        <div class="search-overlay">
+            <h2>Encontre Seu Filme Favorito</h2>
+
+            <div class="search-controls">
+                <div class="search-input-group">
+                    <input type="text" id="search-input" placeholder="Pesquisar filme..." class="search-input">
+                    <button id="search-button" class="search-button">Buscar</button>
+                </div>
+
+                <select id="genre-filter" class="genre-select">
+                    <option value="">Todos os Gêneros</option>
+                    <option value="28">Ação</option>
+                    <option value="35">Comédia</option>
+                    <option value="18">Drama</option>
+                    <option value="878">Ficção Científica</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
     <div id="movie-catalog" class="catalog-grid">
         <p class="loading">Carregando filmes...</p>
     </div>
 
-    <script src="/js/api.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

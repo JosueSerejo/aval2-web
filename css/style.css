@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,7 +11,7 @@
     --color-background: #f4f4f4;
     --color-text-dark: #333;
     --color-text-light: #ffffff;
-    --color-accent: #e94560;
+    --color-accent: #b80b28;
     --color-secondary-bg: #fff;
     --color-border: #ddd;
     --color-shadow: rgba(0, 0, 0, 0.2);
@@ -63,6 +65,107 @@ body {
     padding: 5px 10px;
 }
 
+.hero-search {
+    background-image: url('/assets/bg/bg_pesquisa.png');
+    background-color: #333;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero-search::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.search-overlay {
+    background-color: transparent;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    z-index: 3;
+}
+
+.search-overlay h2 {
+    color: var(--color-text-light);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.search-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search-input-group {
+    display: flex;
+    width: 100%;
+    gap: 0;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    border-radius: 5px 0 0 5px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.search-button {
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.search-button:hover {
+    background-color: #c9364b;
+}
+
+.search-input:focus {
+    border-color: var(--color-accent);
+}
+
+.genre-select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.genre-select:focus {
+    border-color: var(--color-accent);
+}
+
+/* ESTILOS DO CATÁLOGO */
 .catalog-grid {
     padding: 20px;
     display: flex;
@@ -142,5 +245,19 @@ body {
     .main-nav a.active {
         color: var(--color-accent);
         border-bottom: 2px solid var(--color-accent);
+    }
+
+    .search-controls {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .search-input-group {
+        flex-grow: 3;
+    }
+
+    .genre-select {
+        flex-grow: 1;
+        max-width: 200px;
     }
 }
