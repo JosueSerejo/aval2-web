@@ -1,5 +1,4 @@
 // CONFIGURAÇÃO DA API
-
 const API_KEY = '13c79f644cb25e1a1aae5b5824eb32de';
 const BASE = 'https://api.themoviedb.org/3';
 const IMG_PATH = 'https://image.tmdb.org/t/p/w500';
@@ -8,11 +7,14 @@ const LANG = 'language=pt-BR';
 const CURRENT_YEAR = new Date().getFullYear();
 const RELEASE_DATE_GTE = `primary_release_date.gte=${CURRENT_YEAR}-01-01`;
 
+const GENRE_API_URL = `${BASE}/genre/movie/list?api_key=${API_KEY}&${LANG}`;
+
 // Estado da Aplicação
 let currentPage = 1;
 let totalPages = 1;
 let currentSearchTerm = '';
 let currentGenreId = '';
+let genreMap = {};
 
 // Elementos DOM
 const $catalog = document.getElementById('movie-catalog');
@@ -22,6 +24,25 @@ const $genreFilter = document.getElementById('genre-filter');
 const $prevBtn = document.getElementById('prev-page-button');
 const $nextBtn = document.getElementById('next-page-button');
 const $pageInfo = document.getElementById('page-info');
+
+async function initGenres() {
+    try {
+        const res = await fetch(GENRE_API_URL);
+        const data = await res.json();
+
+        data.genres.forEach(genre => {
+            genreMap[genre.id] = genre.name;
+
+            const option = document.createElement('option');
+            option.value = genre.id;
+            option.textContent = genre.name;
+            $genreFilter.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar lista de gêneros:', error);
+    }
+}
 
 // BUSCA DE FILMES
 async function fetchMovies(page = 1, searchTerm = '', genreId = '') {
@@ -63,7 +84,10 @@ function showMovies(movies) {
     moviesToShow.forEach(movie => {
         const posterUrl = movie.poster_path ? IMG_PATH + movie.poster_path : 'https://via.placeholder.com/180x270?text=Sem+Poster';
         const year = movie.release_date ? movie.release_date.substring(0, 4) : 'N/A';
-        const genres = movie.genre_ids.join(', ');
+
+        const genreNames = movie.genre_ids
+            .map(id => genreMap[id] || 'Desconhecido')
+            .join(', ');
 
         const cardHTML = `
             <div class="movie-card">
@@ -71,7 +95,7 @@ function showMovies(movies) {
                 <h3>${movie.title}</h3>
                 <p>Ano: ${year}</p>
                 <p>Tipo: Filme</p>
-                <p>Gênero(s): ${genres}</p>
+                <p>Gênero(s): ${genreNames}</p>
             </div>
         `;
         $catalog.innerHTML += cardHTML;
@@ -91,7 +115,7 @@ function updatePaginationControls(isError = false) {
     $pageInfo.textContent = `Página ${currentPage} de ${displayTotalPages}`;
 
     $prevBtn.disabled = currentPage <= 1;
-    $nextBtn.disabled = currentPage >= totalPages;
+    $nextBtn.disabled = currentPage >= displayTotalPages;
 }
 
 function handleNavigation(direction) {
@@ -109,7 +133,6 @@ function handleSearchAndFilter() {
 }
 
 // BOTÃO DE PESQUISA, FILTROS, E NAVEGAÇÃO
-
 $searchButton.addEventListener('click', handleSearchAndFilter);
 $searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSearchAndFilter();
@@ -120,4 +143,9 @@ $genreFilter.addEventListener('change', handleSearchAndFilter);
 $prevBtn.addEventListener('click', () => handleNavigation(-1));
 $nextBtn.addEventListener('click', () => handleNavigation(1));
 
-fetchMovies(1, currentSearchTerm, currentGenreId);
+async function initializeApp() {
+    await initGenres();
+    fetchMovies(1, currentSearchTerm, currentGenreId);
+}
+
+initializeApp();
