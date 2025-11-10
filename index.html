@@ -31,13 +31,19 @@
 
     <section class="hero-search">
         <div class="search-overlay">
-            <h2>Encontre Seu Filme Favorito</h2>
+            <h2>Encontre Seu Filme ou Série Favorita</h2>
 
             <div class="search-controls">
                 <div class="search-input-group">
-                    <input type="text" id="search-input" placeholder="Pesquisar filme..." class="search-input">
+                    <input type="text" id="search-input" placeholder="Pesquisar por título..." class="search-input">
                     <button id="search-button" class="search-button">Buscar</button>
                 </div>
+
+                <select id="media-type-filter" class="genre-select">
+                    <option value="all">Filmes e Séries</option>
+                    <option value="movie">Somente Filmes</option>
+                    <option value="tv">Somente Séries</option>
+                </select>
 
                 <select id="genre-filter" class="genre-select">
                     <option value="">Todos os Gêneros</option>
@@ -46,15 +52,26 @@
         </div>
     </section>
 
-    <h1>Últimos Lançamentos</h1>
+    <h1>Últimos Lançamentos - Filmes</h1>
     <div id="movie-catalog" class="catalog-grid">
         <p class="loading">Carregando filmes...</p>
     </div>
 
-    <div class="pagination-controls">
-        <button id="prev-page-button" disabled>Página Anterior</button>
-        <span id="page-info">Página 1 de X</span>
-        <button id="next-page-button">Próxima Página</button>
+    <div class="pagination-controls" id="movie-pagination">
+        <button id="prev-movie-button" disabled>Página Anterior</button>
+        <span id="movie-page-info">Página 1 de X</span>
+        <button id="next-movie-button">Próxima Página</button>
+    </div>
+
+    <h1>Últimos Lançamentos - Séries</h1>
+    <div id="tv-catalog" class="catalog-grid">
+        <p class="loading">Carregando séries...</p>
+    </div>
+
+    <div class="pagination-controls" id="tv-pagination">
+        <button id="prev-tv-button" disabled>Página Anterior</button>
+        <span id="tv-page-info">Página 1 de X</span>
+        <button id="next-tv-button">Próxima Página</button>
     </div>
 
     <footer class="main-footer">

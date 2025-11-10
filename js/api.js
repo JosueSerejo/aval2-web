@@ -5,105 +5,182 @@ const IMG_PATH = 'https://image.tmdb.org/t/p/w500';
 const LANG = 'language=pt-BR';
 
 const CURRENT_YEAR = new Date().getFullYear();
-const RELEASE_DATE_GTE = `primary_release_date.gte=${CURRENT_YEAR}-01-01`;
+const RELEASE_DATE_GTE = `${CURRENT_YEAR}-01-01`;
 
-const GENRE_API_URL = `${BASE}/genre/movie/list?api_key=${API_KEY}&${LANG}`;
+// URLs para Gêneros de Filmes e Séries
+const MOVIE_GENRE_API_URL = `${BASE}/genre/movie/list?api_key=${API_KEY}&${LANG}`;
+const TV_GENRE_API_URL = `${BASE}/genre/tv/list?api_key=${API_KEY}&${LANG}`;
 
 // Estado da Aplicação
-let currentPage = 1;
-let totalPages = 1;
+const state = {
+    movie: { currentPage: 1, totalPages: 1 },
+    tv: { currentPage: 1, totalPages: 1 }
+};
 let currentSearchTerm = '';
 let currentGenreId = '';
 let genreMap = {};
+let movieGenres = []; 
+let tvGenres = [];  
 
 // Elementos DOM
-const $catalog = document.getElementById('movie-catalog');
+const $catalogMovie = document.getElementById('movie-catalog');
+const $catalogTv = document.getElementById('tv-catalog');
 const $searchInput = document.getElementById('search-input');
 const $searchButton = document.getElementById('search-button');
+const $mediaTypeFilter = document.getElementById('media-type-filter'); 
 const $genreFilter = document.getElementById('genre-filter');
-const $prevBtn = document.getElementById('prev-page-button');
-const $nextBtn = document.getElementById('next-page-button');
-const $pageInfo = document.getElementById('page-info');
 
-async function initGenres() {
-    try {
-        const res = await fetch(GENRE_API_URL);
-        const data = await res.json();
+// Elementos de Paginação
+const $prevMovieBtn = document.getElementById('prev-movie-button');
+const $nextMovieBtn = document.getElementById('next-movie-button');
+const $moviePageInfo = document.getElementById('movie-page-info');
+const $prevTvBtn = document.getElementById('prev-tv-button');
+const $nextTvBtn = document.getElementById('next-tv-button');
+const $tvPageInfo = document.getElementById('tv-page-info');
 
-        data.genres.forEach(genre => {
-            genreMap[genre.id] = genre.name;
+// Função para preencher o filtro de Gêneros com a lista correta
+function populateGenreFilter(mediaType) {
+    let genresToUse = [];
+    
+    if (mediaType === 'movie') {
+        genresToUse = movieGenres;
+    } else if (mediaType === 'tv') {
+        genresToUse = tvGenres;
+    } else {
+        // Se for 'all', usa o mapa geral para a lista combinada
+        genresToUse = Object.entries(genreMap).map(([id, name]) => ({ id: parseInt(id), name: name }));
+    }
 
+    $genreFilter.innerHTML = '<option value="">Todos os Gêneros</option>';
+    
+    const uniqueNames = new Set(); 
+
+    genresToUse.forEach(genre => {
+        if (!uniqueNames.has(genre.name)) {
             const option = document.createElement('option');
             option.value = genre.id;
             option.textContent = genre.name;
             $genreFilter.appendChild(option);
+            uniqueNames.add(genre.name);
+        }
+    });
+    
+    currentGenreId = ''; 
+}
+
+// Inicializa Gêneros
+async function initGenres() {
+    try {
+        const [movieRes, tvRes] = await Promise.all([
+            fetch(MOVIE_GENRE_API_URL),
+            fetch(TV_GENRE_API_URL)
+        ]);
+
+        const [movieData, tvData] = await Promise.all([
+            movieRes.json(),
+            tvRes.json()
+        ]);
+        
+        // Armazena as listas separadamente
+        movieGenres = movieData.genres;
+        tvGenres = tvData.genres;
+        
+        // Constrói o mapa de tradução global
+        const combinedGenres = [...movieData.genres, ...tvData.genres];
+        combinedGenres.forEach(genre => {
+             genreMap[genre.id] = genre.name;
         });
+
+        populateGenreFilter('all');
 
     } catch (error) {
         console.error('Erro ao carregar lista de gêneros:', error);
     }
 }
 
-// BUSCA DE FILMES
-async function fetchMovies(page = 1, searchTerm = '', genreId = '') {
-    currentPage = page;
+// BUSCA DE MÍDIA (Filmes ou Séries)
+async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
+    const isMovie = (mediaType === 'movie');
+    const catalogElement = isMovie ? $catalogMovie : $catalogTv;
+    
+    const dateFilter = isMovie ? `primary_release_date.gte=${RELEASE_DATE_GTE}` : `first_air_date.gte=${RELEASE_DATE_GTE}`;
+    
     let url;
+
     if (searchTerm) {
-        url = `${BASE}/search/movie?api_key=${API_KEY}&${LANG}&query=${searchTerm}&page=${page}`;
+        url = `${BASE}/search/multi?api_key=${API_KEY}&${LANG}&query=${searchTerm}&page=${page}`;
     } else {
-        url = `${BASE}/discover/movie?api_key=${API_KEY}&${LANG}&${RELEASE_DATE_GTE}&sort_by=popularity.desc&page=${page}`;
+        url = `${BASE}/discover/${mediaType}?api_key=${API_KEY}&${LANG}&${dateFilter}&sort_by=popularity.desc&page=${page}`;
         if (genreId) url += `&with_genres=${genreId}`;
     }
 
     try {
         const res = await fetch(url);
         const data = await res.json();
+        
+        state[mediaType].currentPage = data.page;
+        state[mediaType].totalPages = data.total_pages;
 
-        totalPages = data.total_pages;
-
-        $catalog.innerHTML = '';
-        if (data.results.length === 0) {
-            $catalog.innerHTML = '<p class="loading">Nenhum filme encontrado.</p>';
+        let results = data.results.filter(item => item.media_type === mediaType || !searchTerm);
+        
+        catalogElement.innerHTML = '';
+        if (results.length === 0) {
+            catalogElement.innerHTML = `<p class="loading">Nenhum(a) ${isMovie ? 'filme' : 'série'} encontrado(a).</p>`;
         } else {
-            showMovies(data.results);
+            showMedia(results, catalogElement, mediaType);
         }
 
-        updatePaginationControls();
+        updatePaginationControls(mediaType);
     } catch (error) {
-        console.error('Erro ao buscar filmes:', error);
-        $catalog.innerHTML = '<p class="loading">Erro ao carregar filmes.</p>';
-        updatePaginationControls(true);
+        console.error(`Erro ao buscar ${mediaType}:`, error);
+        catalogElement.innerHTML = `<p class="loading">Erro ao carregar ${isMovie ? 'filmes' : 'séries'}.</p>`;
+        updatePaginationControls(mediaType, true);
     }
 }
 
 // RENDERIZAÇÃO
-function showMovies(movies) {
-    const moviesToShow = movies.slice(0, 12);
-    $catalog.innerHTML = '';
+function showMedia(results, catalogElement, mediaType) {
+    const itemsToShow = results.slice(0, 6); 
+    
+    catalogElement.innerHTML = ''; 
 
-    moviesToShow.forEach(movie => {
-        const posterUrl = movie.poster_path ? IMG_PATH + movie.poster_path : 'https://via.placeholder.com/180x270?text=Sem+Poster';
-        const year = movie.release_date ? movie.release_date.substring(0, 4) : 'N/A';
+    itemsToShow.forEach(item => {
+        const isMovie = (mediaType === 'movie' || item.media_type === 'movie');
+        
+        const title = item.title || item.name; 
+        const rawDate = item.release_date || item.first_air_date || 'N/A';
+        const year = rawDate !== 'N/A' ? rawDate.substring(0, 4) : 'N/A';
+        
+        const posterUrl = item.poster_path ? IMG_PATH + item.poster_path : 'https://via.placeholder.com/180x270?text=Sem+Poster';
 
-        const genreNames = movie.genre_ids
+        const genreNames = (item.genre_ids || [])
             .map(id => genreMap[id] || 'Desconhecido')
             .join(', ');
 
         const cardHTML = `
             <div class="movie-card">
-                <img src="${posterUrl}" alt="${movie.title}">
-                <h3>${movie.title}</h3>
+                <img src="${posterUrl}" alt="${title}">
+                <h3>${title}</h3>
+                <p>Tipo: ${isMovie ? 'Filme' : 'Série'}</p>
                 <p>Ano: ${year}</p>
-                <p>Tipo: Filme</p>
                 <p>Gênero(s): ${genreNames}</p>
             </div>
         `;
-        $catalog.innerHTML += cardHTML;
+        catalogElement.innerHTML += cardHTML;
     });
 }
 
 // PAGINAÇÃO E CONTROLES
-function updatePaginationControls(isError = false) {
+function updatePaginationControls(mediaType, isError = false) {
+    const isMovie = (mediaType === 'movie');
+    const prefix = isMovie ? 'movie' : 'tv';
+    const totalPages = state[mediaType].totalPages;
+    const currentPage = state[mediaType].currentPage;
+    
+    const $prevBtn = document.getElementById(`prev-${prefix}-button`);
+    const $nextBtn = document.getElementById(`next-${prefix}-button`);
+    const $pageInfo = document.getElementById(`${prefix}-page-info`);
+
     if (isError) {
         $prevBtn.disabled = true;
         $nextBtn.disabled = true;
@@ -118,23 +195,45 @@ function updatePaginationControls(isError = false) {
     $nextBtn.disabled = currentPage >= displayTotalPages;
 }
 
-function handleNavigation(direction) {
+function handleNavigation(mediaType, direction) {
+    const totalPages = state[mediaType].totalPages;
+    const currentPage = state[mediaType].currentPage;
     const newPage = currentPage + direction;
+    
     if (newPage >= 1 && newPage <= totalPages) {
-        fetchMovies(newPage, currentSearchTerm, currentGenreId);
+        // NÃO TOCA NO SPINNER
+        fetchMedia(mediaType, newPage, currentSearchTerm, currentGenreId);
         window.scrollTo(0, 0);
     }
 }
 
+// LÓGICA DE BUSCA E FILTRO RESPEITANDO O TIPO DE MÍDIA SELECIONADO
 function handleSearchAndFilter() {
     currentSearchTerm = $searchInput.value;
     currentGenreId = $genreFilter.value;
-    fetchMovies(1, currentSearchTerm, currentGenreId);
+    const mediaTypeSelected = $mediaTypeFilter.value;    
+    const fetchPromises = [];
+
+    // LÓGICA FILME: Atualiza SE for 'movie' ou 'all'
+    if (mediaTypeSelected === 'movie' || mediaTypeSelected === 'all') {
+        fetchPromises.push(fetchMedia('movie', 1, currentSearchTerm, currentGenreId));
+    } 
+
+    // LÓGICA SÉRIE: Atualiza SE for 'tv' ou 'all'
+    if (mediaTypeSelected === 'tv' || mediaTypeSelected === 'all') {
+        fetchPromises.push(fetchMedia('tv', 1, currentSearchTerm, currentGenreId));
+    } 
+
+    if (fetchPromises.length > 0) {
+        Promise.all(fetchPromises);
+    }
 }
 
 async function initializeApp() {
     await initGenres();
-    fetchMovies(1, currentSearchTerm, currentGenreId);
+    
+    await Promise.all([
+        fetchMedia('movie', 1, currentSearchTerm, currentGenreId),
+        fetchMedia('tv', 1, currentSearchTerm, currentGenreId)
+    ]);
 }
-
-initializeApp();
