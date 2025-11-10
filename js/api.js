@@ -21,6 +21,8 @@ let currentGenreId = '';
 let genreMap = {};
 let movieGenres = []; 
 let tvGenres = [];  
+let spinnerMinimumTime = 800;
+let spinnerStartTime = 0;
 
 // Elementos DOM
 const $catalogMovie = document.getElementById('movie-catalog');
@@ -29,6 +31,7 @@ const $searchInput = document.getElementById('search-input');
 const $searchButton = document.getElementById('search-button');
 const $mediaTypeFilter = document.getElementById('media-type-filter'); 
 const $genreFilter = document.getElementById('genre-filter');
+const $spinner = document.getElementById('spinner-overlay')
 
 // Elementos de Paginação
 const $prevMovieBtn = document.getElementById('prev-movie-button');
@@ -114,6 +117,8 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
         if (genreId) url += `&with_genres=${genreId}`;
     }
 
+    showSpinner()
+
     try {
         const res = await fetch(url);
         const data = await res.json();
@@ -135,6 +140,9 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
         console.error(`Erro ao buscar ${mediaType}:`, error);
         catalogElement.innerHTML = `<p class="loading">Erro ao carregar ${isMovie ? 'filmes' : 'séries'}.</p>`;
         updatePaginationControls(mediaType, true);
+    }
+    finally {
+        hideSpinner()
     }
 }
 
@@ -226,6 +234,20 @@ function handleSearchAndFilter() {
 
     if (fetchPromises.length > 0) {
         Promise.all(fetchPromises);
+    }
+}
+
+// SPINNER
+
+function showSpinner() {
+    if($spinner) {
+        $spinner.classList.add('show')
+    }
+}
+
+function hideSpinner() {
+    if($spinner) {
+        $spinner.classList.remove('show')
     }
 }
 
