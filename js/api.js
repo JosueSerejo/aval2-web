@@ -78,7 +78,7 @@ async function fetchMovies(page = 1, searchTerm = '', genreId = '') {
 
 // RENDERIZAÇÃO
 function showMovies(movies) {
-    const moviesToShow = movies.slice(0, 6);
+    const moviesToShow = movies.slice(0, 12);
     $catalog.innerHTML = '';
 
     moviesToShow.forEach(movie => {
@@ -131,17 +131,6 @@ function handleSearchAndFilter() {
     currentGenreId = $genreFilter.value;
     fetchMovies(1, currentSearchTerm, currentGenreId);
 }
-
-// BOTÃO DE PESQUISA, FILTROS, E NAVEGAÇÃO
-$searchButton.addEventListener('click', handleSearchAndFilter);
-$searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleSearchAndFilter();
-});
-
-$genreFilter.addEventListener('change', handleSearchAndFilter);
-
-$prevBtn.addEventListener('click', () => handleNavigation(-1));
-$nextBtn.addEventListener('click', () => handleNavigation(1));
 
 async function initializeApp() {
     await initGenres();
