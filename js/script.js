@@ -17,5 +17,19 @@ $nextMovieBtn.addEventListener('click', () => handleNavigation('movie', 1));
 $prevTvBtn.addEventListener('click', () => handleNavigation('tv', -1));
 $nextTvBtn.addEventListener('click', () => handleNavigation('tv', 1));
 
+// SPINNER
+
+function showSpinner() {
+    if($spinner) {
+        $spinner.classList.add('show')
+    }
+}
+
+function hideSpinner() {
+    if($spinner) {
+        $spinner.classList.remove('show')
+    }
+}
+
 // Inicializa a Aplicação
 initializeApp();

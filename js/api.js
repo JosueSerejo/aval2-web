@@ -21,8 +21,6 @@ let currentGenreId = '';
 let genreMap = {};
 let movieGenres = []; 
 let tvGenres = [];  
-let spinnerMinimumTime = 800;
-let spinnerStartTime = 0;
 
 // Elementos DOM
 const $catalogMovie = document.getElementById('movie-catalog');
@@ -234,20 +232,6 @@ function handleSearchAndFilter() {
 
     if (fetchPromises.length > 0) {
         Promise.all(fetchPromises);
-    }
-}
-
-// SPINNER
-
-function showSpinner() {
-    if($spinner) {
-        $spinner.classList.add('show')
-    }
-}
-
-function hideSpinner() {
-    if($spinner) {
-        $spinner.classList.remove('show')
     }
 }
 
