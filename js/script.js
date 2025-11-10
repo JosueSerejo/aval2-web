@@ -19,15 +19,31 @@ $nextTvBtn.addEventListener('click', () => handleNavigation('tv', 1));
 
 // SPINNER
 
+let spinnerMinimumTime = 800;
+let spinnerStartTime = 0;
+let isSpinnerVisible = false;
+
 function showSpinner() {
-    if($spinner) {
+    if($spinner && !isSpinnerVisible) {
         $spinner.classList.add('show')
+        spinnerStartTime = Date.now()
+        isSpinnerVisible = true
     }
 }
 
 function hideSpinner() {
-    if($spinner) {
+    const elapsedTime = Date.now() - spinnerStartTime
+    const remainingTime = spinnerMinimumTime - elapsedTime
+
+    if (remainingTime > 0) {
+        setTimeout(() => {
+            $spinner.classList.remove('show')
+            isSpinnerVisible = false
+        }, remainingTime)
+    }
+    else {
         $spinner.classList.remove('show')
+        isSpinnerVisible = false
     }
 }
 
