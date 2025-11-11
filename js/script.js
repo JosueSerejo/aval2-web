@@ -25,6 +25,7 @@ let isSpinnerVisible = false;
 
 function showSpinner() {
     if($spinner && !isSpinnerVisible) {
+        document.body.classList.add('spinner-active')
         $spinner.classList.add('show')
         spinnerStartTime = Date.now()
         isSpinnerVisible = true
@@ -38,11 +39,13 @@ function hideSpinner() {
     if (remainingTime > 0) {
         setTimeout(() => {
             $spinner.classList.remove('show')
+            document.body.classList.remove('spinner-active')
             isSpinnerVisible = false
         }, remainingTime)
     }
     else {
         $spinner.classList.remove('show')
+        document.body.classList.remove('spinner-active')
         isSpinnerVisible = false
     }
 }

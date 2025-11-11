@@ -264,13 +264,20 @@ h1 {
 }
 
 /* SPINNER */
+.spinner-active .catalog-grid
+.spinner-active .pagination-controls {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
 .spinner-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.95);
     display: none;
     justify-content: center;
     align-items: center;
@@ -310,7 +317,7 @@ h1 {
 }
 
 .spinner-text {
-    color: var(--color-text-dark);
+    color: var(--color-text-light);
     font-size: 1rem;
     margin: 0;
     font-weight: 500;
