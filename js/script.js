@@ -50,5 +50,4 @@ function hideSpinner() {
     }
 }
 
-// Inicializa a Aplicação
 initializeApp();
