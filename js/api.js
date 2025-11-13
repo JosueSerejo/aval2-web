@@ -47,7 +47,6 @@ const $closeButton = document.querySelector('.details-modal .close-button');
 // Função para preencher o filtro de Gêneros com a lista correta
 function populateGenreFilter(mediaType) {
     let genresToUse = [];
-
     if (mediaType === 'movie') {
         genresToUse = movieGenres;
     } else if (mediaType === 'tv') {
