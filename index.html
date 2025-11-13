@@ -54,7 +54,13 @@
 
     <h1>Últimos Lançamentos - Filmes</h1>
     <div id="movie-catalog" class="catalog-grid">
-        <p class="loading">Carregando filmes...</p>
+        <div id="movie-spinner" class="catalog-spinner">
+            <div class="spinner-container">
+                <div class="spinner">
+                    <p class="spinner-text">Carregando filmes...</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="pagination-controls" id="movie-pagination">
@@ -65,7 +71,13 @@
 
     <h1>Últimos Lançamentos - Séries</h1>
     <div id="tv-catalog" class="catalog-grid">
-        <p class="loading">Carregando séries...</p>
+        <div id="tv-spinner" class="catalog-spinner">
+            <div class="spinner-container">
+                <div class="spinner">
+                    <p class="spinner-text">Carregando séries...</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="pagination-controls" id="tv-pagination">
@@ -113,13 +125,6 @@
             </div>
         </div>
     </footer>
-
-    <div id="spinner-overlay" class="spinner-overlay">
-        <div class="spinner-container">
-            <div class="spinner"></div>
-            <p class="spinner-text">Carregando...</p>
-        </div>
-    </div>
 
     <div id="details-modal" class="details-modal">
         <div class="modal-content">
