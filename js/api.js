@@ -346,7 +346,6 @@ function handleNavigation(mediaType, direction) {
 
     if (newPage >= 1 && newPage <= totalPages) {
         fetchMedia(mediaType, newPage, currentSearchTerm, currentGenreId);
-        window.scrollTo(0, 0);
     }
 }
 
