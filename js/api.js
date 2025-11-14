@@ -32,20 +32,6 @@ const $genreFilter = document.getElementById('genre-filter');
 const $movieSpinner = document.getElementById('movie-spinner')
 const $tvSpinner = document.getElementById('tv-spinner')
 
-// Funções de spinner
-function showMovieSpinner() {
-    $movieSpinner.style.display = 'flex';
-}
-function hideMovieSpinner() {
-    $movieSpinner.style.display = 'none';
-}
-function showTvSpinner() {
-    $tvSpinner.style.display = 'flex';
-}
-function hideTvSpinner() {
-    $tvSpinner.style.display = 'none';
-}
-
 // Elementos de Paginação
 const $prevMovieBtn = document.getElementById('prev-movie-button');
 const $nextMovieBtn = document.getElementById('next-movie-button');
@@ -384,18 +370,41 @@ function handleSearchAndFilter() {
     const mediaTypeSelected = $mediaTypeFilter.value;
     const fetchPromises = [];
 
+    const clearCatalogMessages = (catalogElement) => {
+        const existingCards = catalogElement.querySelectorAll('.movie-card')
+        const existingMessages = catalogElement.querySelectorAll('.loading');
+        existingMessages.forEach(msg => msg.remove())
+        existingCards.forEach(card => card.remove())
+    };
+
     if (mediaTypeSelected === 'movie' || mediaTypeSelected === 'all') {
+        clearCatalogMessages($catalogMovie)
         fetchPromises.push(fetchMedia('movie', 1, currentSearchTerm, currentGenreId));
     } else {
-        $catalogMovie.innerHTML = `<p class="loading">Filmes desativados pelo filtro.</p>`;
-        updatePaginationControls('movie', true);
+        clearCatalogMessages($catalogMovie);
+        const message = document.createElement('p');
+        message.className = 'loading';
+        message.textContent = 'Filmes desativados pelo filtro.';
+        $catalogMovie.appendChild(message)
+        updatePaginationControls('movie', true)
+
+        state.movie.currentPage = 1;
+        state.movie.totalPages = 1;
     }
 
     if (mediaTypeSelected === 'tv' || mediaTypeSelected === 'all') {
+        clearCatalogMessages($catalogTv)
         fetchPromises.push(fetchMedia('tv', 1, currentSearchTerm, currentGenreId));
     } else {
-        $catalogTv.innerHTML = `<p class="loading">Séries desativadas pelo filtro.</p>`;
-        updatePaginationControls('tv', true);
+        clearCatalogMessages($catalogTv);
+        const message = document.createElement('p');
+        message.className = 'loading';
+        message.textContent = 'Séries desativados pelo filtro.';
+        $catalogTv.appendChild(message)
+        updatePaginationControls('tv', true)
+
+        state.tv.currentPage = 1;
+        state.tv.totalPages = 1;
     }
 
     if (fetchPromises.length > 0) {
