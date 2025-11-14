@@ -32,6 +32,20 @@ const $genreFilter = document.getElementById('genre-filter');
 const $movieSpinner = document.getElementById('movie-spinner')
 const $tvSpinner = document.getElementById('tv-spinner')
 
+// Funções de spinner
+function showMovieSpinner() {
+    $movieSpinner.style.display = 'flex';
+}
+function hideMovieSpinner() {
+    $movieSpinner.style.display = 'none';
+}
+function showTvSpinner() {
+    $tvSpinner.style.display = 'flex';
+}
+function hideTvSpinner() {
+    $tvSpinner.style.display = 'none';
+}
+
 // Elementos de Paginação
 const $prevMovieBtn = document.getElementById('prev-movie-button');
 const $nextMovieBtn = document.getElementById('next-movie-button');
@@ -106,8 +120,9 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
     const isMovie = (mediaType === 'movie');
     const catalogElement = isMovie ? $catalogMovie : $catalogTv;
 
-    if (isMovie) $movieSpinner.style.display = 'block';
-    else $tvSpinner.style.display = 'block';
+    // SPINNER
+    if (isMovie) showMovieSpinner();
+    else showTvSpinner();
 
     const dateFilter = isMovie ? `primary_release_date.gte=${RELEASE_DATE_GTE}` : `first_air_date.gte=${RELEASE_DATE_GTE}`;
 
@@ -141,8 +156,8 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
         updatePaginationControls(mediaType, true);
     }
     finally {
-        if (isMovie) $movieSpinner.style.display = 'none';
-        else $tvSpinner.style.display = 'none';
+        if (isMovie) hideMovieSpinner()
+        else hideTvSpinner()
     }
 }
 
@@ -185,7 +200,6 @@ function initializeSeasonAccordion() {
     });
 }
 
-
 // Renderiza e exibe o modal
 function showDetailsModal(item, details) {
     const isMovie = (item.mediaType === 'movie');
@@ -195,7 +209,7 @@ function showDetailsModal(item, details) {
     const rating = details.vote_average ? `${(details.vote_average * 10).toFixed(0)}%` : 'N/A';
     const posterUrl = details.poster_path ? IMG_PATH + details.poster_path : 'https://via.placeholder.com/180x270?text=Sem+Poster';
 
-    // *** CORREÇÃO DE DATA
+    // FORMATAÇÃO DE DATA FILMES/SÉRIES
     const rawDate = details.release_date || details.first_air_date;
     let formattedDate = 'N/A';
     if (rawDate) {
