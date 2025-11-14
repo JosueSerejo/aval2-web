@@ -97,7 +97,7 @@ async function initGenres() {
         populateGenreFilter('all');
 
     } catch (error) {
-        console.error('Erro ao carregar lista de gêneros:', error);
+        console.error('Não foi possível carregar lista de gêneros:', error);
     }
 }
 
@@ -106,8 +106,8 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
     const isMovie = (mediaType === 'movie');
     const catalogElement = isMovie ? $catalogMovie : $catalogTv;
 
-    if (isMovie) showMovieSpinner()
-    else showTvSpinner()
+    if (isMovie) $movieSpinner.style.display = 'block';
+    else $tvSpinner.style.display = 'block';
 
     const dateFilter = isMovie ? `primary_release_date.gte=${RELEASE_DATE_GTE}` : `first_air_date.gte=${RELEASE_DATE_GTE}`;
 
@@ -141,8 +141,8 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
         updatePaginationControls(mediaType, true);
     }
     finally {
-        if (isMovie) hideMovieSpinner()
-        else hideTvSpinner()
+        if (isMovie) $movieSpinner.style.display = 'none';
+        else $tvSpinner.style.display = 'none';
     }
 }
 
@@ -191,9 +191,16 @@ function showDetailsModal(item, details) {
     const isMovie = (item.mediaType === 'movie');
     const title = details.title || details.name || 'Título Desconhecido';
     const originalTitle = details.original_title || details.original_name;
-    const synopsis = details.overview || 'Sinopse não disponível.';
+    const synopsis = details.overview || 'Sinopse indisponível.';
     const rating = details.vote_average ? `${(details.vote_average * 10).toFixed(0)}%` : 'N/A';
     const posterUrl = details.poster_path ? IMG_PATH + details.poster_path : 'https://via.placeholder.com/180x270?text=Sem+Poster';
+
+    // *** CORREÇÃO DE DATA
+    const rawDate = details.release_date || details.first_air_date;
+    let formattedDate = 'N/A';
+    if (rawDate) {
+        formattedDate = rawDate.split('-').reverse().join('/');
+    }
 
     // Informações Básicas
     let contentHTML = `
@@ -203,7 +210,7 @@ function showDetailsModal(item, details) {
                 <h2>${title}</h2>
                 ${originalTitle && originalTitle !== title ? `<p class="original-title">Título Original: ${originalTitle}</p>` : ''}
                 <p class="modal-rating">Avaliação TMDB: ${rating} <span>(${details.vote_count || 0} votos)</span></p>
-                <p class="release-info">Lançamento: ${details.release_date || details.first_air_date || 'N/A'}</p>
+                <p class="release-info">Lançamento: ${formattedDate}</p>
                 <p class="genres-info">Gêneros: ${details.genres ? details.genres.map(g => g.name).join(', ') : 'N/A'}</p>
             </div>
         </div>
@@ -222,10 +229,16 @@ function showDetailsModal(item, details) {
                 const seasonTitle = season.name || `Temporada ${season.season_number}`;
                 const episodeCount = season.episode_count || 0;
 
+                // CORREÇÃO DE DATA PARA TEMPORADAS
+                let seasonAirDate = 'N/A';
+                if (season.air_date) {
+                    seasonAirDate = season.air_date.split('-').reverse().join('/');
+                }
+
                 const episodesContent = `
                     <div class="episode-list-content">
                         <p><strong>Total de Episódios:</strong> ${episodeCount}</p>
-                        <p><strong>Data de Lançamento:</strong> ${season.air_date || 'N/A'}</p>
+                        <p><strong>Data de Lançamento:</strong> ${seasonAirDate}</p>
                         <p><strong>Sinopse:</strong> ${season.overview || 'Sem sinopse para esta temporada.'}</p>
                     </div>
                 `;
