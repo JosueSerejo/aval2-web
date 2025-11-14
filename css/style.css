@@ -462,13 +462,6 @@ h1 {
     text-align: center;
 }
 
-.logo-footer {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: var(--color-accent);
-    margin-bottom: 10px;
-}
-
 .footer-col h4 {
     font-size: 1.2em;
     margin-bottom: 15px;
