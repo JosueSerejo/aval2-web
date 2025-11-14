@@ -618,11 +618,16 @@ h1 {
     font-size: 1.8em;
 }
 
-.modal-rating {
-    font-size: 1.2em;
+.modal-rating img{
+    height: 16px;
+    width: 16px;
+    margin-right: 4px; 
+}
+
+.original-title {
     font-weight: bold;
-    color: #4CAF50;
-    margin-bottom: 15px;
+    color: #000000;
+    margin-top: 5px;
 }
 
 .modal-rating span {

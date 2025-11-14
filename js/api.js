@@ -209,7 +209,7 @@ function showDetailsModal(item, details) {
             <div class="modal-text-content">
                 <h2>${title}</h2>
                 ${originalTitle && originalTitle !== title ? `<p class="original-title">Título Original: ${originalTitle}</p>` : ''}
-                <p class="modal-rating">Avaliação TMDB: ${rating} <span>(${details.vote_count || 0} votos)</span></p>
+                <p class="modal-rating"><img src="./assets/icons/star.svg" alt="Ícone estrela"> Avaliações: ${rating} <span>(${details.vote_count || 0} votos)</span></p>
                 <p class="release-info">Lançamento: ${formattedDate}</p>
                 <p class="genres-info">Gêneros: ${details.genres ? details.genres.map(g => g.name).join(', ') : 'N/A'}</p>
             </div>
@@ -342,7 +342,7 @@ function updatePaginationControls(mediaType, isError = false) {
     if (isError) {
         $prevBtn.disabled = true;
         $nextBtn.disabled = true;
-        $pageInfo.textContent = 'Erro';
+        $pageInfo.textContent = 'Páginação indisponível';
         return;
     }
 
