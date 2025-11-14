@@ -29,7 +29,8 @@ const $searchInput = document.getElementById('search-input');
 const $searchButton = document.getElementById('search-button');
 const $mediaTypeFilter = document.getElementById('media-type-filter');
 const $genreFilter = document.getElementById('genre-filter');
-const $spinner = document.getElementById('spinner-overlay')
+const $movieSpinner = document.getElementById('movie-spinner')
+const $tvSpinner = document.getElementById('tv-spinner')
 
 // Elementos de Paginação
 const $prevMovieBtn = document.getElementById('prev-movie-button');
@@ -105,6 +106,9 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
     const isMovie = (mediaType === 'movie');
     const catalogElement = isMovie ? $catalogMovie : $catalogTv;
 
+    if (isMovie) showMovieSpinner()
+    else showTvSpinner()
+
     const dateFilter = isMovie ? `primary_release_date.gte=${RELEASE_DATE_GTE}` : `first_air_date.gte=${RELEASE_DATE_GTE}`;
 
     let url;
@@ -116,8 +120,6 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
         if (genreId) url += `&with_genres=${genreId}`;
     }
 
-    showSpinner()
-
     try {
         const res = await fetch(url);
         const data = await res.json();
@@ -127,21 +129,20 @@ async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
 
         let results = data.results.filter(item => (item.media_type === mediaType || !searchTerm) && item.media_type !== 'person');
 
-        catalogElement.innerHTML = '';
         if (results.length === 0) {
-            catalogElement.innerHTML = `<p class="loading">Nenhum(a) ${isMovie ? 'filme' : 'série'} encontrado(a).</p>`;
+            showMedia(results, catalogElement, mediaType)
         } else {
             showMedia(results, catalogElement, mediaType);
         }
-
         updatePaginationControls(mediaType);
     } catch (error) {
         console.error(`Erro ao buscar ${mediaType}:`, error);
-        catalogElement.innerHTML = `<p class="loading">Erro ao carregar ${isMovie ? 'filmes' : 'séries'}.</p>`;
+        showMedia([], catalogElement, mediaType)
         updatePaginationControls(mediaType, true);
     }
     finally {
-        hideSpinner()
+        if (isMovie) hideMovieSpinner()
+        else hideTvSpinner()
     }
 }
 
@@ -263,7 +264,11 @@ function showDetailsModal(item, details) {
 function showMedia(results, catalogElement, mediaType) {
     const itemsToShow = results.slice(0, 6);
 
-    catalogElement.innerHTML = '';
+    const existingCards = catalogElement.querySelectorAll('.movie-card');
+    const existingLoadingMessages = catalogElement.querySelectorAll('.loading');
+
+    existingCards.forEach(card => card.remove());
+    existingLoadingMessages.forEach(msg => msg.remove());
 
     itemsToShow.forEach(item => {
         const isMovie = (mediaType === 'movie' || item.media_type === 'movie');
@@ -287,15 +292,13 @@ function showMedia(results, catalogElement, mediaType) {
                 <p>Gênero(s): ${genreNames}</p>
             </div>
         `;
-        catalogElement.innerHTML += cardHTML;
+        catalogElement.insertAdjacentHTML('beforeend', cardHTML)
     });
 
     catalogElement.querySelectorAll('.movie-card').forEach(card => {
         card.addEventListener('click', async () => {
             const id = card.dataset.id;
             const type = card.dataset.mediaType;
-
-            showSpinner();
 
             $modalBody.innerHTML = '<p class="loading">Carregando detalhes...</p>';
             $detailsModal.classList.add('show');
@@ -308,8 +311,6 @@ function showMedia(results, catalogElement, mediaType) {
             } else {
                 $modalBody.innerHTML = '<p class="loading">Não foi possível carregar os detalhes.</p>';
             }
-
-            hideSpinner();
         });
     });
 }

@@ -17,37 +17,57 @@ $nextMovieBtn.addEventListener('click', () => handleNavigation('movie', 1));
 $prevTvBtn.addEventListener('click', () => handleNavigation('tv', -1));
 $nextTvBtn.addEventListener('click', () => handleNavigation('tv', 1));
 
-// SPINNER
+// SPINNERS ESPECIFICOS - CATALOGOS DE FILME E SERIE
 
 let spinnerMinimumTime = 800;
-let spinnerStartTime = 0;
-let isSpinnerVisible = false;
+let movieSpinnerStartTime = 0;
+let tvSpinnerStartTime = 0;
 
-function showSpinner() {
-    if($spinner && !isSpinnerVisible) {
-        document.body.classList.add('spinner-active')
-        $spinner.classList.add('show')
-        spinnerStartTime = Date.now()
-        isSpinnerVisible = true
+
+function showMovieSpinner() {
+    if ($movieSpinner) {
+        $movieSpinner.classList.remove('hidden')
+        movieSpinnerStartTime = Date.now()
     }
 }
 
-function hideSpinner() {
-    const elapsedTime = Date.now() - spinnerStartTime
-    const remainingTime = spinnerMinimumTime - elapsedTime
+function hideMovieSpinner() {
+    const remainingTime = calculateRemainaingTime(movieSpinnerStartTime, spinnerMinimumTime)
 
     if (remainingTime > 0) {
         setTimeout(() => {
-            $spinner.classList.remove('show')
-            document.body.classList.remove('spinner-active')
-            isSpinnerVisible = false
+            $movieSpinner.classList.add('hidden')
         }, remainingTime)
     }
     else {
-        $spinner.classList.remove('show')
-        document.body.classList.remove('spinner-active')
-        isSpinnerVisible = false
+        $movieSpinner.classList.add('hidden')
     }
+}
+
+function showTvSpinner() {
+    if ($tvSpinner) {
+        $tvSpinner.classList.remove('hidden')
+        tvSpinnerStartTime = Date.now()
+    }
+}
+
+function hideTvSpinner() {
+    const remainingTime = calculateRemainaingTime(tvSpinnerStartTime, spinnerMinimumTime)
+
+    if (remainingTime > 0) {
+        setTimeout(() => {
+            $tvSpinner.classList.add('hidden')
+        }, remainingTime)
+    }
+    else {
+        $tvSpinner.classList.add('hidden')
+    }
+}
+
+function calculateRemainaingTime(startTime, minimumTimeSpinner) {
+    const elapsedTime = Date.now() - startTime
+    const remainingTime = minimumTimeSpinner - elapsedTime
+    return remainingTime
 }
 
 // MENU MOBILE
