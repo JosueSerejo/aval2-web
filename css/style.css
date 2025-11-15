@@ -704,6 +704,28 @@ h1 {
     text-align: left;
 }
 
+@media (max-width: 600px) {
+    .modal-content {
+        margin: 10% 5%;
+        width: 90%;
+    }
+
+    .modal-header-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modal-poster {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .close-button {
+        top: 5px;
+        right: 15px;
+    }
+}
 
 @media (min-width: 768px) {
 
@@ -782,6 +804,10 @@ h1 {
         flex-grow: 3;
     }
 
+    .search-overlay h2 {
+        font-size: 2.2em;
+    }
+
     .genre-select {
         flex-grow: 1;
         max-width: 200px;
@@ -791,6 +817,7 @@ h1 {
         flex-direction: row;
         text-align: left;
         justify-content: space-between;
+        gap: 50px;
     }
 
     .footer-col {
@@ -819,27 +846,98 @@ h1 {
     .catalog-spinner .spinner-text {
         font-size: 1.1rem;
     }
+
+    .hero-search {
+        min-height: 300px
+    }
 }
 
-@media (max-width: 600px) {
-    .modal-content {
-        margin: 10% 5%;
-        width: 90%;
+@media (min-width: 1024px) {
+    .catalog-grid {
+        gap: 30px;
+        padding: 40px;
+    }
+    
+    .movie-card {
+        width: 250px;
+    }
+
+    .about-card {
+        margin: 60px auto;
+        padding: 80px 60px;
     }
 
     .modal-header-info {
-        flex-direction: column;
-        text-align: center;
+        flex-direction: row;
+        align-items: flex-start;
     }
 
     .modal-poster {
-        width: 100%;
-        max-width: 200px;
-        margin: 0 auto;
+        width: 250px;
     }
 
-    .close-button {
-        top: 5px;
-        right: 15px;
+    .hero-search {
+        min-height: 350px;
+    }
+
+    .search-overlay h2 {
+        font-size: 2.2em;
+    }
+
+    .catalog-spinner .spinner {
+        width: 60px;
+        height: 60px;
+    }
+
+    .catalog-spinner .spinner-container {
+        padding: 3rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .catalog-grid {
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 35px;
+        padding: 50px;
+    }
+
+    .movie-card {
+        width: 280px;
+    }
+
+    .about-card {
+        margin: 80px auto;
+        padding: 90px 70px;
+    }
+
+    .main-header {
+        padding: 15px 60px;
+    }
+
+    .hero-search {
+        min-height: 400px;
+    }
+
+    .modal-content {
+        max-width: 1100px;
+        margin: 2% auto;
+    }
+
+    .modal-poster {
+        width: 300px;
+    }
+
+    .catalog-spinner .spinner {
+        width: 70px;
+        height: 70px;
+    }
+
+    .catalog-spinner .spinner-container {
+        padding: 3.5rem;
+    }
+
+    .catalog-spinner .spinner-text {
+        font-size: 1.3rem;
     }
 }
