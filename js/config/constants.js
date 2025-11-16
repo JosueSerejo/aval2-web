@@ -9,11 +9,12 @@ export const filters = {
     currentGenreId: ''
 }
 
+export const spinnerState = {
+    spinnerMinimumTime: 800,
+    movieSpinnerStartTime: 0,
+    tvSpinnerStartTime: 0
+}
+
 export let genreMap = {};
 export let movieGenres = [];
 export let tvGenres = [];
-
-
-export const spinnerMinimumTime = 800;
-export let movieSpinnerStartTime = 0;
-export let tvSpinnerStartTime = 0;

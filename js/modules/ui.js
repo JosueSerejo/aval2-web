@@ -1,5 +1,4 @@
-import { IMG_PATH, genreMap, spinnerMinimumTime, movieSpinnerStartTime, tvSpinnerStartTime, 
-$movieSpinner, $tvSpinner, $modalBody, $detailsModal } from '../config/index.js'
+import { IMG_PATH, genreMap, spinnerState ,$movieSpinner, $tvSpinner, $modalBody, $detailsModal } from '../config/index.js'
 import { fetchDetails  } from './api.js'
 import { showDetailsModal  } from './modal.js'
 import { calculateRemainaingTime  } from '../utils/helpers.js'
@@ -9,12 +8,13 @@ import { calculateRemainaingTime  } from '../utils/helpers.js'
 export function showMovieSpinner() {
     if ($movieSpinner) {
         $movieSpinner.classList.remove('hidden')
+        spinnerState.movieSpinnerStartTime = Date.now()
     }
 }
 
 // FUNÇÕES SPINNER
 export function hideMovieSpinner() {
-    const remainingTime = calculateRemainaingTime(movieSpinnerStartTime, spinnerMinimumTime)
+    const remainingTime = calculateRemainaingTime(spinnerState.movieSpinnerStartTime, spinnerState.spinnerMinimumTime)
 
     if (remainingTime > 0) {
         setTimeout(() => {
@@ -30,12 +30,13 @@ export function hideMovieSpinner() {
 export function showTvSpinner() {
     if ($tvSpinner) {
         $tvSpinner.classList.remove('hidden')
+        spinnerState.tvSpinnerStartTime = Date.now();
     }
 }
 
 
 export function hideTvSpinner() {
-    const remainingTime = calculateRemainaingTime(tvSpinnerStartTime, spinnerMinimumTime)
+    const remainingTime = calculateRemainaingTime(spinnerState.tvSpinnerStartTime, spinnerState.spinnerMinimumTime)
 
     if (remainingTime > 0) {
         setTimeout(() => {

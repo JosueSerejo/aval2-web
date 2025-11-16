@@ -1,8 +1,8 @@
 import { API_KEY, BASE, RELEASE_DATE_GTE, LANG, state, $catalogMovie, $catalogTv } from '../config/index.js'
 import { showMedia, showMovieSpinner, hideMovieSpinner, showTvSpinner, 
 hideTvSpinner} from '../modules/ui.js'
-import {  updatePaginationControls  } from '../modules/pagination.js'
-
+import { updatePaginationControls } from '../modules/pagination.js'
+import { showMessage } from '../utils/helpers.js'
 
 // BUSCA DE MÍDIA
 export async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
@@ -34,7 +34,7 @@ export async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId =
         let results = data.results.filter(item => (item.media_type === mediaType || !searchTerm) && item.media_type !== 'person');
 
         if (results.length === 0) {
-            showMedia(results, catalogElement, mediaType)
+            showMessage(catalogElement, mediaType)
         } else {
             showMedia(results, catalogElement, mediaType);
         }
