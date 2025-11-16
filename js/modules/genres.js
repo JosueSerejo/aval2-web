@@ -1,4 +1,5 @@
-import { MOVIE_GENRE_API_URL, TV_GENRE_API_URL, movieGenres, tvGenres, genreMap, $genreFilter } from '../config/index.js'
+import { MOVIE_GENRE_API_URL, TV_GENRE_API_URL, genreMap, $genreFilter } from '../config/index.js'
+import { movieGenres, filters } from '../config/index.js'
 
 export function populateGenreFilter(mediaType) {
     let genresToUse = [];
@@ -24,7 +25,7 @@ export function populateGenreFilter(mediaType) {
         }
     });
 
-    currentGenreId = '';
+    filters.currentGenreId = '';
 }
 
 // Inicializa Gêneros
@@ -40,8 +41,7 @@ export async function initGenres() {
             tvRes.json()
         ]);
 
-        movieGenres = movieData.genres;
-        tvGenres = tvData.genres;
+        Object.keys(genreMap).forEach(key => delete genreMap[key])
 
         const combinedGenres = [...movieData.genres, ...tvData.genres];
         combinedGenres.forEach(genre => {

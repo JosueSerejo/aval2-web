@@ -1,4 +1,4 @@
-import { API_KEY, BASE, RELEASE_DATE_GTE, state, $catalogMovie, $catalogTv } from '../config/index.js'
+import { API_KEY, BASE, RELEASE_DATE_GTE, LANG, state, $catalogMovie, $catalogTv } from '../config/index.js'
 import { showMedia, showMovieSpinner, hideMovieSpinner, showTvSpinner, 
 hideTvSpinner} from '../modules/ui.js'
 import {  updatePaginationControls  } from '../modules/pagination.js'

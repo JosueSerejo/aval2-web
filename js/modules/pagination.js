@@ -1,4 +1,4 @@
-import { state } from '../config/index.js'
+import { state, filters } from '../config/index.js'
 import { fetchMedia  } from './api.js'
 
 // PAGINAÇÃO E CONTROLES
@@ -33,8 +33,6 @@ export function handleNavigation(mediaType, direction) {
     const newPage = currentPage + direction;
 
     if (newPage >= 1 && newPage <= totalPages) {
-        const currentSearchTerm = document.getElementById('search-input').value;
-        const currentGenreId = document.getElementById('genre-filter').value;
-        fetchMedia(mediaType, newPage, currentSearchTerm, currentGenreId);
+        fetchMedia(mediaType, newPage, filters.currentSearchTerm, filters.currentGenreId);
     }
 }

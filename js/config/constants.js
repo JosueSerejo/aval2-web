@@ -4,6 +4,10 @@ export const state = {
     tv: { currentPage: 1, totalPages: 1 }
 };
 
+export const filters = {
+    currentSearchTerm: '',
+    currentGenreId: ''
+}
 
 export let genreMap = {};
 export let movieGenres = [];

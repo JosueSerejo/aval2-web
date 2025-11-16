@@ -1,5 +1,5 @@
-import {  IMG_PATH, genreMap, spinnerMinimumTime, movieSpinnerStartTime, tvSpinnerStartTime, 
-$movieSpinner, $tvSpinner } from '../config/index.js'
+import { IMG_PATH, genreMap, spinnerMinimumTime, movieSpinnerStartTime, tvSpinnerStartTime, 
+$movieSpinner, $tvSpinner, $modalBody, $detailsModal } from '../config/index.js'
 import { fetchDetails  } from './api.js'
 import { showDetailsModal  } from './modal.js'
 import { calculateRemainaingTime  } from '../utils/helpers.js'
@@ -9,7 +9,6 @@ import { calculateRemainaingTime  } from '../utils/helpers.js'
 export function showMovieSpinner() {
     if ($movieSpinner) {
         $movieSpinner.classList.remove('hidden')
-        movieSpinnerStartTime = Date.now()
     }
 }
 
@@ -31,7 +30,6 @@ export function hideMovieSpinner() {
 export function showTvSpinner() {
     if ($tvSpinner) {
         $tvSpinner.classList.remove('hidden')
-        tvSpinnerStartTime = Date.now()
     }
 }
 

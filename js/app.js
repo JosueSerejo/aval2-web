@@ -1,12 +1,13 @@
-import { initGenres } from './modules/genres.js'
-import { fetchMedia } from './modules/api.js'
+import { initGenres, populateGenreFilter } from './modules/genres.js'
+import { fetchMedia, fetchDetails } from './modules/api.js'
+import { showMovieSpinner, hideMovieSpinner, showTvSpinner, hideTvSpinner } from './modules/ui.js'
 import { handleSearchAndFilter } from './modules/search.js'
-import { handleNavigation } from './modules/pagination.js'
-import { initializeModal } from './modules/modal.js'
+import { handleNavigation, updatePaginationControls } from './modules/pagination.js'
+import { initializeModal, showDetailsModal, initializeSeasonAccordion } from './modules/modal.js'
 import { initializeMobileMenu } from './modules/mobileMenu.js'
 import { $searchButton, $searchInput, $mediaTypeFilter, $genreFilter } from './config/index.js'
 import { $prevMovieBtn, $nextMovieBtn, $prevTvBtn, $nextTvBtn } from './config/index.js'
-
+import { filters } from './config/index.js'
 
 export async function initializeApp() {
     await initGenres();
@@ -14,8 +15,8 @@ export async function initializeApp() {
     initializeMobileMenu()
 
     await Promise.all([
-        fetchMedia('movie', 1, '', ''),
-        fetchMedia('tv', 1, '', '')
+        fetchMedia('movie', 1, filters.currentSearchTerm, filters.currentGenreId),
+        fetchMedia('tv', 1, filters.currentSearchTerm, filters.currentGenreId)
     ]);
 }
 

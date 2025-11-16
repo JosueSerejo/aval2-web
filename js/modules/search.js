@@ -1,12 +1,12 @@
-import { state,  } from '../config/index.js'
+import { state, filters } from '../config/index.js'
 import { $searchInput, $genreFilter, $mediaTypeFilter, $catalogMovie, $catalogTv } from '../config/index.js'
 import { fetchMedia } from './api.js'
 import { updatePaginationControls } from './pagination.js'
 
 // LÓGICA DE BUSCA E FILTRO RESPEITANDO O TIPO DE MÍDIA SELECIONADO
 export function handleSearchAndFilter() {
-    const currentSearchTerm = $searchInput.value;
-    const currentGenreId = $genreFilter.value;
+    filters.currentSearchTerm = $searchInput.value;
+    filters.currentGenreId = $genreFilter.value;
     const mediaTypeSelected = $mediaTypeFilter.value;
     const fetchPromises = [];
 
@@ -19,7 +19,7 @@ export function handleSearchAndFilter() {
 
     if (mediaTypeSelected === 'movie' || mediaTypeSelected === 'all') {
         clearCatalogMessages($catalogMovie)
-        fetchPromises.push(fetchMedia('movie', 1, currentSearchTerm, currentGenreId));
+        fetchPromises.push(fetchMedia('movie', 1, filters.currentSearchTerm, filters.currentGenreId));
     } else {
         clearCatalogMessages($catalogMovie);
         const message = document.createElement('p');
@@ -34,7 +34,7 @@ export function handleSearchAndFilter() {
 
     if (mediaTypeSelected === 'tv' || mediaTypeSelected === 'all') {
         clearCatalogMessages($catalogTv)
-        fetchPromises.push(fetchMedia('tv', 1, currentSearchTerm, currentGenreId));
+        fetchPromises.push(fetchMedia('tv', 1, filters.currentSearchTerm, filters.currentGenreId));
     } else {
         clearCatalogMessages($catalogTv);
         const message = document.createElement('p');
