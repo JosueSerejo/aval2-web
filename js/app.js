@@ -20,7 +20,6 @@ export async function initializeApp() {
     ]);
 }
 
-
 document.addEventListener('DOMContentLoaded', () => {
     $searchButton.addEventListener('click', handleSearchAndFilter);
     $searchInput.addEventListener('keypress', (e) => {

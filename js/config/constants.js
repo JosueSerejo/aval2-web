@@ -1,4 +1,3 @@
-// Estado da Aplicação
 export const state = {
     movie: { currentPage: 1, totalPages: 1 },
     tv: { currentPage: 1, totalPages: 1 }

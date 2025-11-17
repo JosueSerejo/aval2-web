@@ -4,12 +4,10 @@ hideTvSpinner} from '../modules/ui.js'
 import { updatePaginationControls } from '../modules/pagination.js'
 import { showMessage } from '../utils/helpers.js'
 
-// BUSCA DE MÍDIA
 export async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId = '') {
     const isMovie = (mediaType === 'movie');
     const catalogElement = isMovie ? $catalogMovie : $catalogTv;
 
-    // SPINNER
     if (isMovie) showMovieSpinner();
     else showTvSpinner();
 
@@ -50,7 +48,6 @@ export async function fetchMedia(mediaType, page = 1, searchTerm = '', genreId =
     }
 }
 
-// Busca detalhes específicos de um item
 export async function fetchDetails(id, mediaType) {
     const url = `${BASE}/${mediaType}/${id}?api_key=${API_KEY}&${LANG}`;
 

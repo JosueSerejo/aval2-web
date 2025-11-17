@@ -25,7 +25,6 @@ export function initializeSeasonAccordion() {
     });
 }
 
-// Renderiza e exibe o modal
 export function showDetailsModal(item, details) {
     const isMovie = (item.mediaType === 'movie');
     const title = details.title || details.name || 'Título Desconhecido';
@@ -34,14 +33,12 @@ export function showDetailsModal(item, details) {
     const rating = details.vote_average ? `${(details.vote_average * 10).toFixed(0)}%` : 'N/A';
     const posterUrl = details.poster_path ? IMG_PATH + details.poster_path : 'https://via.placeholder.com/180x270?text=Sem+Poster';
 
-    // FORMATAÇÃO DE DATA FILMES/SÉRIES
     const rawDate = details.release_date || details.first_air_date;
     let formattedDate = 'N/A';
     if (rawDate) {
         formattedDate = rawDate.split('-').reverse().join('/');
     }
 
-    // Informações Básicas
     let contentHTML = `
         <div class="modal-header-info">
             <img class="modal-poster" src="${posterUrl}" alt="Pôster de ${title}">
@@ -60,7 +57,6 @@ export function showDetailsModal(item, details) {
         </div>
     `;
 
-    // Temporadas e Episódios
     if (!isMovie && details.seasons && details.seasons.length > 0) {
         const seasonsHTML = details.seasons
             .filter(season => season.season_number >= 1)
@@ -68,7 +64,6 @@ export function showDetailsModal(item, details) {
                 const seasonTitle = season.name || `Temporada ${season.season_number}`;
                 const episodeCount = season.episode_count || 0;
 
-                // CORREÇÃO DE DATA PARA TEMPORADAS
                 let seasonAirDate = 'N/A';
                 if (season.air_date) {
                     seasonAirDate = season.air_date.split('-').reverse().join('/');

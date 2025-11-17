@@ -1,7 +1,6 @@
 import { state, filters } from '../config/index.js'
 import { fetchMedia  } from './api.js'
 
-// PAGINAÇÃO E CONTROLES
 export function updatePaginationControls(mediaType, isError = false) {
     const isMovie = (mediaType === 'movie');
     const prefix = isMovie ? 'movie' : 'tv';

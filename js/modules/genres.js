@@ -28,7 +28,6 @@ export function populateGenreFilter(mediaType) {
     filters.currentGenreId = '';
 }
 
-// Inicializa Gêneros
 export async function initGenres() {
     try {
         const [movieRes, tvRes] = await Promise.all([

@@ -3,7 +3,6 @@ import { $searchInput, $genreFilter, $mediaTypeFilter, $catalogMovie, $catalogTv
 import { fetchMedia } from './api.js'
 import { updatePaginationControls } from './pagination.js'
 
-// LÓGICA DE BUSCA E FILTRO RESPEITANDO O TIPO DE MÍDIA SELECIONADO
 export function handleSearchAndFilter() {
     filters.currentSearchTerm = $searchInput.value;
     filters.currentGenreId = $genreFilter.value;

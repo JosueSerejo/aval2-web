@@ -3,8 +3,6 @@ import { fetchDetails  } from './api.js'
 import { showDetailsModal  } from './modal.js'
 import { calculateRemainaingTime  } from '../utils/helpers.js'
 
-
-// SPINNERS
 export function showMovieSpinner() {
     if ($movieSpinner) {
         $movieSpinner.classList.remove('hidden')
@@ -12,7 +10,6 @@ export function showMovieSpinner() {
     }
 }
 
-// FUNÇÕES SPINNER
 export function hideMovieSpinner() {
     const remainingTime = calculateRemainaingTime(spinnerState.movieSpinnerStartTime, spinnerState.spinnerMinimumTime)
 
@@ -48,8 +45,6 @@ export function hideTvSpinner() {
     }
 }
 
-
-// RENDERIZAÇÃO
 export function showMedia(results, catalogElement, mediaType) {
     const itemsToShow = results.slice(0, 6);
 

@@ -66,8 +66,6 @@ body {
     padding: 5px 10px;
 }
 
-/* ESTILOS MOBILE ESPECÍFICOS PARA O MENU */
-
 .main-nav.active {
     display: flex;
     position: absolute;
@@ -104,8 +102,6 @@ body {
     padding: 10px;
     font-size: 1.1em;
 }
-
-/* SEÇÃO DE BUSCA */
 
 .hero-search {
     background-image: url('../assets/bg/bg_pesquisa.png');
@@ -207,8 +203,6 @@ body {
     border-color: var(--color-accent);
 }
 
-/* ESTILOS DO CATÁLOGO E CARDS */
-
 h1 {
     text-align: center;
     margin: 30px 0 10px;
@@ -270,8 +264,6 @@ h1 {
     margin-top: 50px;
 }
 
-/* ESTILOS DE PAGINAÇÃO */
-
 .pagination-controls {
     display: flex;
     justify-content: center;
@@ -306,8 +298,6 @@ h1 {
     opacity: 0.6;
 }
 
-/* SOBRE*/
-
 .about-card {
     background: #fff;
     border-radius: 12px;
@@ -322,7 +312,6 @@ h1 {
 .container {
     padding: 30px 50px;
 }
-
 
 .container p {
     text-align: justify;
@@ -365,8 +354,6 @@ h1 {
     font-size: 0.9rem;
     color: #777;
 }
-
-/* SPINNER */
 
 .catalog-spinner {
     position: absolute;
@@ -421,8 +408,6 @@ h1 {
         transform: rotate(360deg);
     }
 }
-
-/* FOOTER */
 
 .main-footer {
     background-image: url('../assets/bg/bg_footer.png');
@@ -537,8 +522,6 @@ h1 {
     color: #ccc;
 }
 
-/* MODAL DE DETALHES */
-
 .details-modal {
     display: none;
     position: fixed;
@@ -588,7 +571,6 @@ h1 {
     text-decoration: none;
 }
 
-/* conteúdo do modal */
 #modal-body {
     display: flex;
     flex-direction: column;
@@ -619,10 +601,10 @@ h1 {
     font-size: 1.8em;
 }
 
-.modal-rating img{
+.modal-rating img {
     height: 16px;
     width: 16px;
-    margin-right: 4px; 
+    margin-right: 4px;
 }
 
 .original-title {
@@ -650,7 +632,6 @@ h1 {
     margin-bottom: 5px;
 }
 
-/* ACORDION */
 .seasons-section {
     margin-top: 20px;
     padding-top: 10px;
@@ -726,14 +707,6 @@ h1 {
         top: 5px;
         right: 15px;
     }
-    .container {
-    width: 100%;
-    max-width: 95%;
-    margin: 0 auto;
-    padding: 16px;
-    font-size: 1rem;
-    line-height: 1.75;
-   }
 }
 
 @media (min-width: 768px) {
@@ -744,7 +717,7 @@ h1 {
         box-shadow: none;
         padding: 0;
     }
-    
+
     .main-nav.active {
         position: static;
         box-shadow: none;
@@ -813,10 +786,6 @@ h1 {
         flex-grow: 3;
     }
 
-    .search-overlay h2 {
-        font-size: 2.2em;
-    }
-
     .genre-select {
         flex-grow: 1;
         max-width: 200px;
@@ -826,7 +795,6 @@ h1 {
         flex-direction: row;
         text-align: left;
         justify-content: space-between;
-        gap: 50px;
     }
 
     .footer-col {
@@ -854,99 +822,5 @@ h1 {
 
     .catalog-spinner .spinner-text {
         font-size: 1.1rem;
-    }
-
-    .hero-search {
-        min-height: 300px
-    }
-}
-
-@media (min-width: 1024px) {
-    .catalog-grid {
-        gap: 30px;
-        padding: 40px;
-    }
-    
-    .movie-card {
-        width: 250px;
-    }
-
-    .about-card {
-        margin: 60px auto;
-        padding: 80px 60px;
-    }
-
-    .modal-header-info {
-        flex-direction: row;
-        align-items: flex-start;
-    }
-
-    .modal-poster {
-        width: 250px;
-    }
-
-    .hero-search {
-        min-height: 350px;
-    }
-
-    .search-overlay h2 {
-        font-size: 2.2em;
-    }
-
-    .catalog-spinner .spinner {
-        width: 60px;
-        height: 60px;
-    }
-
-    .catalog-spinner .spinner-container {
-        padding: 3rem;
-    }
-}
-
-@media (min-width: 1200px) {
-    .catalog-grid {
-        max-width: 1400px;
-        margin: 0 auto;
-        gap: 35px;
-        padding: 50px;
-    }
-
-    .movie-card {
-        width: 280px;
-    }
-
-    .about-card {
-        margin: 80px auto;
-        padding: 90px 70px;
-    }
-
-    .main-header {
-        padding: 15px 60px;
-    }
-
-    .hero-search {
-        min-height: 400px;
-    }
-
-    .modal-content {
-        max-width: 1100px;
-        margin: 2% auto;
-    }
-
-    .modal-poster {
-        width: 300px;
-    }
-
-    .catalog-spinner .spinner {
-        width: 70px;
-        height: 70px;
-    }
-
-    .catalog-spinner .spinner-container {
-        padding: 3.5rem;
-    }
-
-    .catalog-spinner .spinner-text {
-        font-size: 1.3rem;
     }
 }
