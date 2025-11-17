@@ -302,7 +302,7 @@ h1 {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.10);
-    padding: 64px 48px;
+    padding: 64px 20px;
     max-width: 1300px;
     margin: 40px auto;
     color: #333;
@@ -310,13 +310,13 @@ h1 {
 }
 
 .container {
-    padding: 30px 50px;
+    padding: 10px 20px;
 }
 
 .container p {
     text-align: justify;
     line-height: 30px;
-    margin-top: 15px;
+    margin-bottom: 20px;
 }
 
 .container h2 {

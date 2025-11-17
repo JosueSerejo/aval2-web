@@ -4,7 +4,6 @@ import { showMovieSpinner, hideMovieSpinner, showTvSpinner, hideTvSpinner } from
 import { handleSearchAndFilter } from './modules/search.js'
 import { handleNavigation, updatePaginationControls } from './modules/pagination.js'
 import { initializeModal, showDetailsModal, initializeSeasonAccordion } from './modules/modal.js'
-import { initializeMobileMenu } from './modules/mobileMenu.js'
 import { $searchButton, $searchInput, $mediaTypeFilter, $genreFilter } from './config/index.js'
 import { $prevMovieBtn, $nextMovieBtn, $prevTvBtn, $nextTvBtn } from './config/index.js'
 import { filters } from './config/index.js'
@@ -12,7 +11,6 @@ import { filters } from './config/index.js'
 export async function initializeApp() {
     await initGenres();
     initializeModal()
-    initializeMobileMenu()
 
     await Promise.all([
         fetchMedia('movie', 1, filters.currentSearchTerm, filters.currentGenreId),
